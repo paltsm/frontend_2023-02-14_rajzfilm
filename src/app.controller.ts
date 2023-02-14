@@ -14,4 +14,8 @@ export class AppController {
   index() {
     return { message: 'Welcome to the homepage' };
   }
+  @Get('new')
+  kiir(){
+	return console.log("okoks")
+  }
 }
