@@ -9,5 +9,5 @@ export default class Rajzfilm{
 	nev:string;
 
 	@Column()
-	megjelenes:number;
+	megjelenesEv:number;
 }

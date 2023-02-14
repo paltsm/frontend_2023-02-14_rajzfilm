@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Post, Render } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Render } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { AppService } from './app.service';
+import NewRajzfilmDto from './newRajzfilm.dto';
+import Rajzfilm from './rajzfilm.entity';
 
 @Controller()
 export class AppController {
@@ -14,8 +16,21 @@ export class AppController {
   index() {
     return { message: 'Welcome to the homepage' };
   }
-  @Get('new')
-  kiir(){
-	return console.log("okoks")
+  @Post('rajzfilm')
+  async newRajzfilm(@Body() rajzfilm:NewRajzfilmDto){
+	const rajzfilmRepo=this.dataSource.getRepository(Rajzfilm);
+	rajzfilmRepo.save(rajzfilm);
+	return rajzfilm;
+  }
+  @Get('rajzfilm')
+  async listRajzfilm(){
+	const rajzfilmRepo=this.dataSource.getRepository(Rajzfilm);
+	const [adat,darab]=await rajzfilmRepo.createQueryBuilder().getManyAndCount();
+	return {rajzfilmek: adat,count:darab}
+  }
+  @Delete('/rajzfilm/:id')
+  async deleteRajzfilm(@Param('id') id: number) {
+	const rajzfilmRepo=this.dataSource.getRepository(Rajzfilm);
+	await rajzfilmRepo.delete(id)
   }
 }
